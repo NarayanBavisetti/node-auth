@@ -12,5 +12,8 @@ mongoose.connect(process.env.MONGODB_URL,{
     // useUnifiedTopology:true
 }).then(() => console.log("DB connected successfully")).catch((err) => console.log(err))
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false}))
+app.use(require("./routes/auth"))
 
 app.listen(PORT,() => console.log(`port is running at ${PORT}`))

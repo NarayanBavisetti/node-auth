@@ -19,6 +19,10 @@ export default function Signup() {
     email: "",
     password: "",
     cpassword: "",
+    age:"",
+    gender:"",
+    address:"",
+    city: ""
   });
 
 
@@ -29,24 +33,25 @@ export default function Signup() {
     }));
   };
 
-  const { name, email, password, cpassword } = registerDetails;
+  const { name, email, password, cpassword,age,gender,address,city} = registerDetails;
 
   const navigate = useNavigate();
-
-
- 
   
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    if (password !== cpassword) {
-      alert("Password doesnot match");
-    } else {
-      const userData = {
-        name,
-        email,
-        password,
-      };
-    }
+
+    const { name, email, password, cpassword,age,gender,address,city} = registerDetails;
+    console.log(registerDetails);
+    const res = await fetch("/signup",{
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({
+            name,email,password,age,gender,address,city
+        })
+    })
+     const result = await res.json();
 
   };
 
@@ -74,7 +79,7 @@ export default function Signup() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
                   name="name"
@@ -87,7 +92,7 @@ export default function Signup() {
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -99,7 +104,60 @@ export default function Signup() {
                   autoComplete="email"
                 />
               </Grid>
-              <Grid item xs={12}>
+             
+              <Grid item xs={12}  sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  name="age"
+                  label="Age"
+                  onChange={onHandleChange}
+                  value={age}
+                  type="number"
+                  id="age"
+                  autoComplete="age"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  name="gender"
+                  label="Gender"
+                  onChange={onHandleChange}
+                  value={gender}
+                  type="text"
+                  id="gender"
+                  autoComplete="gender"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  name="address"
+                  label="Address"
+                  onChange={onHandleChange}
+                  value={address}
+                  type="text"
+                  id="address"
+                  autoComplete="address"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  name="city"
+                  label="City"
+                  onChange={onHandleChange}
+                  value={city}
+                  type="text"
+                  id="city"
+                  autoComplete="city"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -113,7 +171,7 @@ export default function Signup() {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
