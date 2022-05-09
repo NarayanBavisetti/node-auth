@@ -1,6 +1,8 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This projects uses React in the frontend and Nodejs in the backend and MongoDB for the database.
+This is a simple app in which JWT authentication is setuped and the basic CRUD operations can be performed in the allusers page.
 
 ## Available Scripts
 
@@ -8,11 +10,19 @@ In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
+Runs the app in the development mode.It can be runned in the node-react.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+### `npm run dev`
+
+To start the server firstly change the directory
+cd server
+Then enter npm run dev to run the server.
+
+## Their is an example of env folder given you can enter you credentials thier.
 
 ### `npm test`
 
