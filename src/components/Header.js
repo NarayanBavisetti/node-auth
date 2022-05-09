@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,17 +11,37 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { ButtonGroup } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-
+import { UserContext } from "../App";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const { state, dispatch } = useContext(UserContext);
 
-  const navigate = useNavigate()
-
+  const onLogout = () => {
+    fetch("/logout", {
+      mehtod: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        dispatch({ type: "USER", payload: false });
+        navigate("/");
+        if (res.status !== 200) {
+          const error = new Error(res.error);
+          throw error;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [ setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,9 +54,7 @@ const Header = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+
 
   return (
     <AppBar position="static">
@@ -49,7 +67,7 @@ const Header = () => {
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
             <Link to={`/`} style={{ color: "white", textDecoration: "none" }}>
-              CLX
+              Node-Auth
             </Link>
           </Typography>
 
@@ -85,30 +103,10 @@ const Header = () => {
               <MenuItem onClick={handleCloseNavMenu}>
                 <Typography textAlign="center">
                   <Link
-                    to={`/sell`}
+                    to={`/allusers`}
                     style={{ color: "Black", textDecoration: "none" }}
                   >
-                    Sell
-                  </Link>
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Link
-                    to={`/sold`}
-                    style={{ color: "Black", textDecoration: "none" }}
-                  >
-                    Sold items
-                  </Link>
-                </Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">
-                  <Link
-                    to={`/purchased`}
-                    style={{ color: "Black", textDecoration: "none" }}
-                  >
-                    Purchased items
+                    Users
                   </Link>
                 </Typography>
               </MenuItem>
@@ -121,7 +119,7 @@ const Header = () => {
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
             <Link to={`/`} style={{ color: "white", textDecoration: "none" }}>
-              CLX
+              Node-Auth
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -130,69 +128,45 @@ const Header = () => {
               sx={{ my: 2, display: "block" }}
             >
               <Link
-                to={`/sell`}
+                to={`/allusers`}
                 style={{ color: "white", textDecoration: "none" }}
               >
-                Sell
-              </Link>
-            </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, display: "block" }}
-            >
-              <Link
-                to={`/sold`}
-                style={{ color: "White", textDecoration: "none" }}
-              >
-                Sold items
-              </Link>
-            </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, display: "block" }}
-            >
-              <Link
-                to={`/purchased`}
-                style={{ color: "White", textDecoration: "none" }}
-              >
-                Purchased items
+                Users
               </Link>
             </Button>
           </Box>
-          {/* {user ? ( 
+          {state ? (
             <>
-            Hi {user.name}
-             <Button color="inherit" onClick={onLogout}> */}
-            {" "}
-            {/* <Link
-              to={`/signin`}
-              style={{ color: "White", textDecoration: "none" }}
-            > */}
-              {/* Logout */}
-            {/* </Link> */}
-          {/* </Button>
-          </>
-          ) : (  */}
+              <Button color="inherit" onClick={onLogout}>
+                {" "}
+                <Link
+                  to={`/signin`}
+                  style={{ color: "White", textDecoration: "none" }}
+                >
+                  Logout
+                </Link>
+               
+              </Button>
+              <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="profile">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+
+            </Box>
+            </>
+          ) : (
+            <>
             <Button color="inherit">
-            {" "}
-            <Link
-              to={`/`}
-              style={{ color: "White", textDecoration: "none" }}
-            >
-              Signin
-            </Link>
-          </Button>
-          {/* //      <Box sx={{ flexGrow: 0 }}>
-          //   <Tooltip title="profile">
-          //     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          //       <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-          //     </IconButton>
-          //   </Tooltip>
-            
-          // </Box> */}
-          {/* )} */}
-        
-      
+              {" "}
+              <Link to={`/`} style={{ color: "White", textDecoration: "none" }}>
+                Signin
+              </Link>
+            </Button>
+                
+            </>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
