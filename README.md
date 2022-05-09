@@ -19,10 +19,10 @@ You may also see any lint errors in the console.
 ### `npm run dev`
 
 To start the server firstly change the directory
-cd server
+`cd server`
 Then enter npm run dev to run the server.
 
-## Their is an example of env folder given you can enter you credentials thier.
+## Their is an example of env folder given you can enter you credentials their.
 
 ### `npm test`
 
